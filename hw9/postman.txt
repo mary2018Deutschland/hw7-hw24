@@ -1,0 +1,167 @@
+
+1. Регистрация пользователя
+
+Метод: POST
+URL: http://localhost:3000/register
+Тело запроса (Body, raw, JSON):
+
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+Ожидаемый ответ (Response):
+
+{
+  "message": "Пользователь успешно зарегистрирован",
+  "newUser": {
+    "email": "user@example.com",
+    "role": "user",
+    "mustChangePassword": false
+  }
+}
+
+
+---
+
+2. Логин пользователя
+
+Метод: POST
+URL: http://localhost:3000/login
+Тело запроса:
+
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+Ожидаемый ответ:
+
+{
+  "message": "Добро пожаловать, user@example.com"
+}
+
+
+---
+
+3. Смена пароля
+
+Метод: POST
+URL: http://localhost:3001/change-password
+Тело запроса:
+
+{
+  "email": "user@example.com",
+  "currentPassword": "password123",
+  "newPassword": "newpassword456"
+}
+Ожидаемый ответ:
+
+{
+    "message": "Пароль изменен",
+    "user": {
+        "email": "user@example.com",
+        "password": "$2b$10$tIIUIHfp0CCNqhge.TGSAe/pk3NK7LliXqCTAgbkiK7CJJktF1aVy",
+        "role": "user",
+        "mustChangePassword": false
+    }
+}
+
+
+---
+
+4. Удаление аккаунта
+
+Метод: POST
+URL: http://localhost:3000/delete-account
+Тело запроса:
+
+{
+  "password": "newpassword456"
+}
+
+Ожидаемый ответ:
+
+{
+  "message": "Аккаунт удален"
+}
+
+
+---
+
+5. Изменение email
+
+Метод: POST
+URL: http://localhost:3000/change-email
+Тело запроса:
+
+{
+  "email": "user@example.com",
+  "currentPassword": "newpassword456",
+  "newEmail": "newuser@example.com"
+}
+
+Ожидаемый ответ:
+
+{
+    "message": "Email изменен",
+    "user": {
+        "email": "newuser@example.com",
+        "password": "$2b$10$tIIUIHfp0CCNqhge.TGSAe/pk3NK7LliXqCTAgbkiK7CJJktF1aVy",
+        "role": "user",
+        "mustChangePassword": false
+    }
+}
+---
+
+6. Назначение администратора (добавить admin-роль)
+
+Метод: POST
+URL: http://localhost:3000/make-admin
+Тело запроса:
+
+{
+  "email": "newuser@example.com"
+}
+
+Ожидаемый ответ:
+
+{
+    "message": "Пользователь стал админом",
+    "user": {
+        "email": "newuser@example.com",
+        "password": "$2b$10$tIIUIHfp0CCNqhge.TGSAe/pk3NK7LliXqCTAgbkiK7CJJktF1aVy",
+        "role": "admin",
+        "mustChangePassword": false
+    }
+}
+
+
+---
+
+7. Вход в админ-панель
+
+Метод: GET
+URL: http://localhost:3001/admin
+Тело запроса:
+
+{
+  "email": "newuser@example.com"
+}
+Ожидаемый ответ (если пользователь админ):
+
+{
+    "message": "Добро пожаловать в админ-панель",
+    "user": {
+        "email": "newuser@example.com",
+        "password": "$2b$10$tIIUIHfp0CCNqhge.TGSAe/pk3NK7LliXqCTAgbkiK7CJJktF1aVy",
+        "role": "admin",
+        "mustChangePassword": false
+    }
+}
+Ожидаемый ответ (если не админ):
+
+{
+  "message": "Доступ запрещен"
+}
+
